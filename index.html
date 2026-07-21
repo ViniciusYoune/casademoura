@@ -31,55 +31,6 @@
 
   .page{max-width:935px;margin:0 auto;padding:30px 20px 0;}
 
-  /* ---- Header ---- */
-  .header{display:flex;gap:60px;padding:0 0 30px;border-bottom:1px solid var(--ig-border);margin-bottom:8px;}
-  .avatar-wrap{flex-shrink:0;display:flex;justify-content:center;width:150px;}
-  .avatar{
-    width:150px;height:150px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;overflow:hidden;
-  }
-  .avatar svg,.avatar img{width:100%;height:100%;object-fit:cover;display:block;}
-  .header-main{flex:1;min-width:0;padding-top:8px;}
-  .username-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
-  .username{font-size:22px;font-weight:400;}
-  .pill-btn{
-    background:#363636;border:none;border-radius:8px;padding:7px 16px;
-    font-size:14px;font-weight:600;cursor:default;color:var(--ig-text);
-  }
-  .pill-btn.primary{background:var(--ig-blue);color:white;}
-  .stats-row{display:flex;gap:40px;margin-bottom:20px;font-size:16px;}
-  .stats-row b{font-weight:600;}
-  .stats-row .stat-label{color:var(--ig-text);}
-  .bio{font-size:14px;line-height:1.5;}
-  .bio .display-name{font-weight:600;}
-  .bio .bio-line{white-space:pre-line;}
-  .bio .bio-address{color:var(--ig-text);}
-  .bio .bio-link{display:flex;align-items:center;gap:5px;font-weight:600;color:#5eb8ff;margin-top:2px;}
-  .bio .bio-link svg{flex-shrink:0;}
-
-  /* ---- Highlights ---- */
-  .highlights{display:flex;gap:24px;padding:16px 0 22px;overflow-x:auto;}
-  .highlight{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;width:77px;}
-  .highlight-circle{
-    width:77px;height:77px;border-radius:50%;border:1px solid var(--ig-border);
-    padding:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;
-  }
-  .highlight-circle-inner{
-    width:100%;height:100%;border-radius:50%;background:#1a1a1a;
-    display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;
-  }
-  .highlight-circle-inner img{width:100%;height:100%;object-fit:cover;}
-  .highlight-label{font-size:12px;max-width:77px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-
-  /* ---- Tabs ---- */
-  .tabs{display:flex;justify-content:center;gap:60px;border-top:1px solid var(--ig-border);}
-  .tab{
-    padding:14px 0;font-size:12px;letter-spacing:1px;font-weight:600;color:var(--ig-subtext);
-    display:flex;align-items:center;gap:6px;border-top:1px solid transparent;margin-top:-1px;
-  }
-  .tab.active{color:var(--ig-text);border-top:1px solid var(--ig-text);}
-
   /* ---- Grid ---- */
   .grid-wrap{padding-bottom:60px;}
   .hint{text-align:center;font-size:12px;color:var(--ig-subtext);padding:14px 0 4px;}
@@ -127,7 +78,6 @@
     opacity:0;transition:opacity .15s ease;
   }
   #carouselImg.visible{opacity:1;}
-  #reelVideo{width:100%;height:100%;object-fit:contain;background:#000;}
   #reelFrame{width:100%;height:100%;border:0;}
   .media-loading{
     position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
@@ -183,11 +133,6 @@
     width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;
   }
   @media (max-width:720px){
-    .header{gap:24px;}
-    .avatar-wrap{width:90px;}
-    .avatar{width:90px;height:90px;font-size:28px;}
-    .username{font-size:18px;}
-    .stats-row{gap:20px;font-size:14px;}
     .modal{flex-direction:column;max-height:95vh;}
     .modal-media,.modal-media.reels{aspect-ratio:4/5;max-height:55vh;}
     .modal-side{width:100%;border-left:none;border-top:1px solid var(--ig-border);}
@@ -199,60 +144,6 @@
 <div class="banner">Prévia de conteúdos para aprovação — não é o perfil real do Instagram · arraste os posts para reordenar</div>
 
 <div class="page">
-  <div class="header">
-    <div class="avatar-wrap"><div class="avatar" id="profileAvatar">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="logoRing" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#f58529"/>
-            <stop offset="45%" stop-color="#dd2a7b"/>
-            <stop offset="100%" stop-color="#8134af"/>
-          </linearGradient>
-        </defs>
-        <circle cx="50" cy="50" r="47" fill="#0d0d0d" stroke="url(#logoRing)" stroke-width="5"/>
-        <path d="M32 78 L32 50 L50 24 L68 50 L68 78" fill="none" stroke="#f5a623" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div></div>
-    <div class="header-main">
-      <div class="username-row">
-        <div class="username">casademoura</div>
-        <button class="pill-btn primary">Seguir</button>
-        <button class="pill-btn">Mensagem</button>
-      </div>
-      <div class="stats-row">
-        <div><b>688</b> <span class="stat-label">publicações</span></div>
-        <div><b>20,7 mil</b> <span class="stat-label">seguidores</span></div>
-        <div><b>3.525</b> <span class="stat-label">seguindo</span></div>
-      </div>
-      <div class="bio">
-        <div class="display-name">Casa de Moura</div>
-        <div class="bio-line">• terça a sexta | 11:30h às 14h (buffet kg)
-e das 18h às 23h (à la carte)
-• sábado e domingo | 12h às 17h</div>
-        <div class="bio-address">R. Rio Grande do Sul, 145, Joinville, Santa Catarina, Brazil</div>
-        <div class="bio-link">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5eb8ff" stroke-width="2.5"><path d="M10 14a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 10a5 5 0 0 0-7.07 0L4.1 12.83a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>
-          linktr.ee/suacasademoura
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="highlights" id="highlights">
-    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">🕐</div></div><div class="highlight-label">Horários</div></div>
-    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">🛵</div></div><div class="highlight-label">delivery</div></div>
-    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">📍</div></div><div class="highlight-label">localização</div></div>
-    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">🥂</div></div><div class="highlight-label">eventos</div></div>
-    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">📖</div></div><div class="highlight-label">reservas</div></div>
-  </div>
-
-  <div class="tabs">
-    <div class="tab active">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      PUBLICAÇÕES
-    </div>
-  </div>
-
   <div class="grid-wrap">
     <div class="hint">Arraste um post para reorganizar a grade &nbsp;·&nbsp; clique para visualizar</div>
     <div class="grid" id="grid"></div>
@@ -269,7 +160,6 @@ e das 18h às 23h (à la carte)
     <div class="modal">
       <div class="modal-media" id="modalMedia">
         <img id="carouselImg">
-        <video id="reelVideo" style="display:none;" controls playsinline preload="metadata"></video>
         <iframe id="reelFrame" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
         <div class="media-loading" id="mediaLoading"><div class="spinner"></div><span id="loadingText" style="margin-left:8px;"></span></div>
         <button class="carousel-btn prev" id="prevImgBtn" style="display:none;">‹</button>
@@ -304,58 +194,66 @@ e das 18h às 23h (à la carte)
 </div>
 
 <script>
-// ---- Dados dos conteúdos (extraídos do Drive, pastas 30, 37, 38 a 47) ----
+// ---- Dados dos conteúdos (extraídos da pasta de validação do Drive) ----
+// carrossel: items = [{kind:"image"|"video", id}] (permite slides mistos, ex.: Antecipação Menu)
 const posts = [
-  { id:"calendario-julho", theme:"Calendário Julho na Casa", type:"foto",
-    images:["1MqW19RaMYnjdNdaZoEkojOFtmShkdzeE"] },
   { id:"atum-previa", theme:"Atum Acerola · Prévia", type:"reels",
     capa:"1Cdl0dYA3ta-_oj5qQm_uep-u80QUr__x", video:"1ZwPGZ4Gkp1kZHxx7hrBvqCNcfq-MRX_0" },
-  { id:"ostra-vinho-1807", theme:"Ostra e Vinho · 18.07", type:"reels",
-    capa:"1_rSxUAB8deL0bNxbGW4-YfNbN1c_fNBi", video:"17bArk2r-BH3Q149ubQjoX_EJKxRk_uFe" },
-  { id:"localizacao", theme:"Localização e Espaço", type:"reels",
-    capa:"12jh2AtdrquURMkxciHw6xi01m1x8E5z8", video:"12k-_4DNsHe4kHVE1yuxwhVytlJKewqeK" },
-  { id:"atum-carrossel", theme:"Atum Acerola · Carrossel", type:"carrossel",
-    images:["1kPd0Wi8YrUzptyhj9SN7KiIC0a-prrG2","1vxlcCZjRe7LJF_hrRc3HCdyC8jnbYGUu","14uay4wl50PDJdF_-8cEKbDYTQBww5QmR"] },
+  { id:"antecipacao-menu", theme:"Antecipação Menu", type:"carrossel",
+    items:[
+      {kind:"image", id:"1pmahtraXATkxVCSQuXgU8GnOi9DG5cR1"},
+      {kind:"video", id:"1TOVUUA6Rga_0grtJt5mBP90A2aWBdqFO"},
+      {kind:"video", id:"1YzG8dFLK5aKhlv86qcIgfQzRpg_7ZN-t"},
+      {kind:"video", id:"15Tp9q_uORhRmavNl6NVTpm3Kqqhn4kGG"},
+      {kind:"video", id:"16fD8RPLyR8BTrPmmQsUlqn4lpAiFoBhe"}
+    ] },
   { id:"novo-menu", theme:"Novo Menu", type:"reels",
     capa:"12JwKOg1cSn7Iq_9px_eUnepwRt1rYa6r", video:"1ctR4uskeUUxuepWJbj9eYpz_B9g9nzmI" },
-  { id:"arroz-lambe-carrossel", theme:"Arroz Lambe Lambe · Carrossel", type:"carrossel",
-    images:["1ejLN1wFyuxjoSN57WSK7EJyLuYnHXLpk","1OhMeH6Rz9Y_qdKmC2RqH4M5Nrl4npbLU","1I8Gw5tZjSL8d4lTnqv8QI5U6wytP8XRQ"] },
-  { id:"tucupi", theme:"Tucupi", type:"reels",
-    capa:"1IaWX-7l35fJnDanoeR6TN3ffyDKaH4FS", video:"1GJMMnAkv-HURhoBGQqjWer8Bb8LXrUum" },
-  { id:"bolinho-foodporn", theme:"Bolinho de Moqueca · Food Porn", type:"reels",
-    capa:"1Qh-3pQluw_hVMgQhDRSEg7_r6tNu4tUD", video:"1OlkrbujUjp5V1BepwJvO0hLr_nSkolQk" },
+  { id:"arroz-cupim-preparo", theme:"Arroz de Cupim · Preparo", type:"reels",
+    capa:"1gDvU4y8g_kpb3XjpVH3tvGHGtLnD7dym", video:"1HdknLpEjhaBJsSdbufsYSWHnYmw6q9a8" },
+  { id:"atum-degustacao-reacao", theme:"Atum Acerola · Degustação + Reação", type:"reels",
+    capa:"167v3Wdc3pGMWlfuwHiMeuoB8_YTy-oaD", video:"1txipzp9b6YYG2Crnew2as6-NOCo_LTfA" },
   { id:"delivery-nhoque-camarao", theme:"Delivery · Nhoque de Camarão", type:"reels",
     capa:"10he_WVOP44PwOEPtTypInIVtewJRKO24", video:"1wIm_qmOW4EN38agQchyojZkaHGjjD8-b" },
-  { id:"arroz-cupim-carrossel", theme:"Arroz de Cupim · Carrossel", type:"carrossel",
-    images:["1ZytBmFfdRUnCl0re_rFPRO44EF60x5id","10n6CAglDMzeRDFZbQNJJYikdhwE5Dm23","1ldg5AeGEZcI8JQyUeEc79EQ1GHUK9Y8q"] },
-  { id:"atum-preparo", theme:"Atum Acerola · Preparo", type:"reels",
-    capa:"1z3uPD6-pisqxQADgo3cYQNGTp29c-fAh", video:"1y7WzrtanK04M44fK95Kk9dMvxgWdPKxT" },
-  { id:"delivery-novo-menu", theme:"Delivery · Novo Menu", type:"reels",
-    capa:"1e8_IO3F-JovUNSBnFjRd72tt8UVFYX2E", video:"1Hw8MXjWBZk_xLLHvA3wBfTjNLfVyY5Jp" },
-  { id:"arroz-lambe-preparo", theme:"Arroz Lambe Lambe · Preparo", type:"reels",
-    capa:"19sV7-4PUxTKmcnxtRlGF3xAU5OB_iSwu", video:"1dyLLrnJsc4NuVM1obduI_GN4KcXeBq6U" },
   { id:"bolinho-carrossel", theme:"Bolinho de Moqueca · Carrossel", type:"carrossel",
-    images:["1_GyL1qFdgIL-7CEi8FvvRAY3JGLjJ5vE","1Eum567u01aGfjjCfaiE4StHWEEdBYbBp"] },
-  { id:"delivery-nhoque-carne-panela", theme:"Delivery · Nhoque Carne de Panela", type:"reels",
-    capa:"13b17qSEuUfnjmr-x-kFdhdU-AmRIKldR", video:"1Mk3spXt39_Le7xvJrmWkrZUh19-NC-7J" },
+    items:[{kind:"image", id:"1_GyL1qFdgIL-7CEi8FvvRAY3JGLjJ5vE"},{kind:"image", id:"1Eum567u01aGfjjCfaiE4StHWEEdBYbBp"}] },
+  { id:"arroz-lambe-foodporn", theme:"Arroz Lambe Lambe · Food Porn", type:"reels",
+    capa:"1cOVheU4lHa_Nt40oy_tEsBP9sSDCuZg9", video:"16H7TA_oZ6zZozTQkqQMIs7FvCF7DZ_UB" },
+  { id:"tucupi", theme:"Tucupi", type:"reels",
+    capa:"1IaWX-7l35fJnDanoeR6TN3ffyDKaH4FS", video:"1GJMMnAkv-HURhoBGQqjWer8Bb8LXrUum" },
+  { id:"arroz-cupim-carrossel", theme:"Arroz de Cupim · Carrossel", type:"carrossel",
+    items:[{kind:"image", id:"1ZytBmFfdRUnCl0re_rFPRO44EF60x5id"},{kind:"image", id:"10n6CAglDMzeRDFZbQNJJYikdhwE5Dm23"},{kind:"image", id:"1ldg5AeGEZcI8JQyUeEc79EQ1GHUK9Y8q"}] },
+  { id:"atum-preparo", theme:"Atum Acerola · Preparo", type:"reels",
+    capa:"1vCTIHdwzz42xZ-_lXZ5ZzxhkC2lkonr2", video:"1y7WzrtanK04M44fK95Kk9dMvxgWdPKxT" },
+  { id:"localizacao", theme:"Localização e Espaço", type:"reels",
+    capa:"12jh2AtdrquURMkxciHw6xi01m1x8E5z8", video:"12k-_4DNsHe4kHVE1yuxwhVytlJKewqeK" },
+  { id:"bolinho-degustacao", theme:"Bolinho de Moqueca · Degustação", type:"reels",
+    capa:"1y5bgVD-vHJJo8K58_mNfnFK1xVQe4R9X", video:"1Tar3u2RZPSd7xkMVpLSccDgR8orZH0Y0" },
   { id:"arroz-cupim-foodporn", theme:"Arroz de Cupim · Food Porn", type:"reels",
     capa:"1OTHwsoU3JauMqG4eEonKJcrIGjYekC2J", video:"10LeS8Cebx5qcQkDKVtug7AirN52_BUNJ" },
   { id:"arroz-lambe-degustacao", theme:"Arroz Lambe Lambe · Degustação", type:"reels",
     capa:"17x3ig4wDROB2t2VG94kKZ3js1Gn9srtA", video:"1Z9CkDwTISkpSZ4Aa-JgRDkR-AzCxmIiq" },
-  { id:"bolinho-degustacao", theme:"Bolinho de Moqueca · Degustação", type:"reels",
-    capa:"1y5bgVD-vHJJo8K58_mNfnFK1xVQe4R9X", video:"1Tar3u2RZPSd7xkMVpLSccDgR8orZH0Y0" },
-  { id:"atum-degustacao-reacao", theme:"Atum Acerola · Degustação + Reação", type:"reels",
-    capa:"167v3Wdc3pGMWlfuwHiMeuoB8_YTy-oaD", video:"1txipzp9b6YYG2Crnew2as6-NOCo_LTfA" },
-  { id:"arroz-lambe-foodporn", theme:"Arroz Lambe Lambe · Food Porn", type:"reels",
-    capa:"1cOVheU4lHa_Nt40oy_tEsBP9sSDCuZg9", video:"16H7TA_oZ6zZozTQkqQMIs7FvCF7DZ_UB" }
+  { id:"atum-carrossel", theme:"Atum Acerola · Carrossel", type:"carrossel",
+    items:[{kind:"image", id:"1kPd0Wi8YrUzptyhj9SN7KiIC0a-prrG2"},{kind:"image", id:"1vxlcCZjRe7LJF_hrRc3HCdyC8jnbYGUu"},{kind:"image", id:"14uay4wl50PDJdF_-8cEKbDYTQBww5QmR"}] },
+  { id:"bolinho-foodporn", theme:"Bolinho de Moqueca · Food Porn", type:"reels",
+    capa:"1Qh-3pQluw_hVMgQhDRSEg7_r6tNu4tUD", video:"1OlkrbujUjp5V1BepwJvO0hLr_nSkolQk" },
+  { id:"delivery-nhoque-carne-panela", theme:"Delivery · Nhoque Carne de Panela", type:"reels",
+    capa:"13b17qSEuUfnjmr-x-kFdhdU-AmRIKldR", video:"1Mk3spXt39_Le7xvJrmWkrZUh19-NC-7J" },
+  { id:"delivery-novo-menu", theme:"Delivery · Novo Menu", type:"reels",
+    capa:"1e8_IO3F-JovUNSBnFjRd72tt8UVFYX2E", video:"1Hw8MXjWBZk_xLLHvA3wBfTjNLfVyY5Jp" },
+  { id:"arroz-lambe-preparo", theme:"Arroz Lambe Lambe · Preparo", type:"reels",
+    capa:"19sV7-4PUxTKmcnxtRlGF3xAU5OB_iSwu", video:"1dyLLrnJsc4NuVM1obduI_GN4KcXeBq6U" },
+  { id:"arroz-lambe-carrossel", theme:"Arroz Lambe Lambe · Carrossel", type:"carrossel",
+    items:[{kind:"image", id:"1ejLN1wFyuxjoSN57WSK7EJyLuYnHXLpk"},{kind:"image", id:"1OhMeH6Rz9Y_qdKmC2RqH4M5Nrl4npbLU"},{kind:"image", id:"1I8Gw5tZjSL8d4lTnqv8QI5U6wytP8XRQ"}] },
+  { id:"atum-foodporn", theme:"Atum Acerola · Food Porn", type:"reels",
+    capa:"15OG7jx9C1cFtUvs3TGl18Sr-1H9QLQsh", video:"1Dkpka4ZCrAfgM-_IysFi-VP_PJcsX45n" }
 ];
 
-const STORAGE_KEY = "casademoura_feed_order_v3";
+const STORAGE_KEY = "casademoura_feed_order_v4";
 
 // tamanho padrão de post do feed do Instagram: 1080x1350 (proporção 4:5)
+// o endpoint de thumbnail do Drive funciona tanto para imagens quanto para vídeos (usa o frame de capa)
 function thumbUrl(id, size){ return `https://drive.google.com/thumbnail?id=${id}&sz=w${size||1080}`; }
-// stream direto do arquivo original (sem passar pelo player de prévia do Drive)
-function videoUrl(id){ return `https://drive.google.com/uc?export=download&id=${id}`; }
 function previewUrl(id){ return `https://drive.google.com/file/d/${id}/preview`; }
 function viewUrl(id){ return `https://drive.google.com/file/d/${id}/view`; }
 
@@ -377,13 +275,14 @@ function saveOrder(ordered){
 
 let currentOrder = loadOrder();
 let currentIndex = 0;
+let carouselIndex = 0;
 
 const grid = document.getElementById("grid");
 
 function render(){
   grid.innerHTML = "";
   currentOrder.forEach((post, idx)=>{
-    const cover = post.images ? post.images[0] : post.capa;
+    const cover = post.type === "reels" ? post.capa : post.items[0].id;
     const div = document.createElement("div");
     div.className = "post";
     div.dataset.id = post.id;
@@ -404,10 +303,7 @@ function badgeIcon(type){
   if(type === "carrossel"){
     return `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M7 2h13a2 2 0 0 1 2 2v13h-2V4H7V2zm-3 4h13a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm0 2v13h13V8H4z"/></svg>`;
   }
-  if(type === "reels"){
-    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>`;
-  }
-  return ""; // foto simples: sem badge, igual ao Instagram
+  return `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>`;
 }
 
 // ---- Sortable (drag to reorder) ----
@@ -434,7 +330,6 @@ const overlay = document.getElementById("overlay");
 const modalTitle = document.getElementById("modalTitle");
 const modalType = document.getElementById("modalType");
 const carouselImg = document.getElementById("carouselImg");
-const reelVideo = document.getElementById("reelVideo");
 const reelFrame = document.getElementById("reelFrame");
 const mediaLoading = document.getElementById("mediaLoading");
 const loadingText = document.getElementById("loadingText");
@@ -443,8 +338,6 @@ const nextImgBtn = document.getElementById("nextImgBtn");
 const dotsContainer = document.getElementById("dotsContainer");
 const qualityLink = document.getElementById("qualityLink");
 const modalMedia = document.getElementById("modalMedia");
-
-let carouselIndex = 0;
 
 function showImage(url){
   mediaLoading.classList.add("show");
@@ -461,22 +354,12 @@ function showImage(url){
   loader.src = url;
 }
 
-function renderDots(post){
-  dotsContainer.innerHTML = "";
-  if(post.images && post.images.length > 1){
-    post.images.forEach((_, i)=>{
-      const dot = document.createElement("span");
-      dot.className = "dot" + (i === carouselIndex ? " active" : "");
-      dotsContainer.appendChild(dot);
-    });
-  }
-}
-
-// player de prévia embutido do Drive — é o que se mostrou confiável nos testes
+// player de prévia embutido do Drive — funciona tanto para reels quanto para slides de vídeo dentro de um carrossel
 let videoLoadToken = 0;
 function loadVideo(videoId){
   const token = ++videoLoadToken;
-  reelVideo.style.display = "none";
+  carouselImg.style.display = "none";
+  carouselImg.classList.remove("visible");
   reelFrame.style.display = "block";
   mediaLoading.classList.add("show");
   loadingText.textContent = "Carregando vídeo…";
@@ -485,37 +368,57 @@ function loadVideo(videoId){
     if(token !== videoLoadToken) return;
     mediaLoading.classList.remove("show");
   };
+  qualityLink.href = viewUrl(videoId);
+  qualityLink.style.display = "inline-block";
+}
+
+function currentSlide(){
+  const post = currentOrder[currentIndex];
+  if(post.type === "reels") return { kind:"video", id: post.video };
+  return post.items[carouselIndex];
+}
+
+function slideCount(){
+  const post = currentOrder[currentIndex];
+  return post.type === "reels" ? 1 : post.items.length;
+}
+
+function renderSlide(){
+  const slide = currentSlide();
+  if(slide.kind === "video"){
+    loadVideo(slide.id);
+  } else {
+    videoLoadToken++; // cancela qualquer loading de vídeo pendente
+    reelFrame.style.display = "none";
+    reelFrame.src = "";
+    qualityLink.style.display = "none";
+    carouselImg.style.display = "block";
+    showImage(thumbUrl(slide.id, 1080));
+  }
+}
+
+function renderNavAndDots(){
+  const total = slideCount();
+  const multi = total > 1;
+  prevImgBtn.style.display = multi ? "flex" : "none";
+  nextImgBtn.style.display = multi ? "flex" : "none";
+  dotsContainer.innerHTML = "";
+  if(multi){
+    for(let i=0;i<total;i++){
+      const dot = document.createElement("span");
+      dot.className = "dot" + (i === carouselIndex ? " active" : "");
+      dotsContainer.appendChild(dot);
+    }
+  }
 }
 
 function renderModal(){
   const post = currentOrder[currentIndex];
   modalTitle.textContent = post.theme;
-  modalType.textContent = post.type === "reels" ? "Reels" : (post.type === "carrossel" ? "Carrossel" : "Foto");
+  modalType.textContent = post.type === "reels" ? "Reels" : "Carrossel";
   modalMedia.classList.toggle("reels", post.type === "reels");
-
-  if(post.type === "reels"){
-    carouselImg.style.display = "none";
-    carouselImg.classList.remove("visible");
-    prevImgBtn.style.display = "none";
-    nextImgBtn.style.display = "none";
-    dotsContainer.innerHTML = "";
-    qualityLink.href = viewUrl(post.video);
-    qualityLink.style.display = "inline-block";
-    loadVideo(post.video);
-  } else {
-    reelVideo.style.display = "none";
-    reelVideo.pause();
-    reelVideo.removeAttribute("src");
-    reelFrame.style.display = "none";
-    reelFrame.src = "";
-    carouselImg.style.display = "block";
-    qualityLink.style.display = "none";
-    showImage(thumbUrl(post.images[carouselIndex], 1080));
-    const multi = post.images.length > 1;
-    prevImgBtn.style.display = multi ? "flex" : "none";
-    nextImgBtn.style.display = multi ? "flex" : "none";
-    renderDots(post);
-  }
+  renderSlide();
+  renderNavAndDots();
 }
 
 function openModal(idx){
@@ -526,25 +429,23 @@ function openModal(idx){
 }
 function closeModal(){
   overlay.classList.remove("open");
-  videoLoadToken++; // invalida qualquer fallback/timeout pendente
-  reelVideo.pause();
-  reelVideo.removeAttribute("src");
+  videoLoadToken++; // invalida qualquer loading pendente
   reelFrame.src = "";
 }
 
 prevImgBtn.addEventListener("click", (e)=>{
   e.stopPropagation();
-  const post = currentOrder[currentIndex];
-  carouselIndex = (carouselIndex - 1 + post.images.length) % post.images.length;
-  showImage(thumbUrl(post.images[carouselIndex], 1080));
-  renderDots(post);
+  const total = slideCount();
+  carouselIndex = (carouselIndex - 1 + total) % total;
+  renderSlide();
+  renderNavAndDots();
 });
 nextImgBtn.addEventListener("click", (e)=>{
   e.stopPropagation();
-  const post = currentOrder[currentIndex];
-  carouselIndex = (carouselIndex + 1) % post.images.length;
-  showImage(thumbUrl(post.images[carouselIndex], 1080));
-  renderDots(post);
+  const total = slideCount();
+  carouselIndex = (carouselIndex + 1) % total;
+  renderSlide();
+  renderNavAndDots();
 });
 
 document.getElementById("closeBtn").addEventListener("click", closeModal);
@@ -565,13 +466,11 @@ document.addEventListener("keydown", (e)=>{
   if(!overlay.classList.contains("open")) return;
   if(e.key === "Escape") closeModal();
   if(e.key === "ArrowRight"){
-    const post = currentOrder[currentIndex];
-    if(post.images && post.images.length > 1) nextImgBtn.click();
+    if(slideCount() > 1) nextImgBtn.click();
     else document.getElementById("nextPost").click();
   }
   if(e.key === "ArrowLeft"){
-    const post = currentOrder[currentIndex];
-    if(post.images && post.images.length > 1) prevImgBtn.click();
+    if(slideCount() > 1) prevImgBtn.click();
     else document.getElementById("prevPost").click();
   }
 });
