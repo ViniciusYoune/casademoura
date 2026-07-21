@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>casademoura • Instagram (prévia de aprovação)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+<style>
+  :root{
+    --ig-bg:#000000;
+    --ig-card:#000000;
+    --ig-border:#262626;
+    --ig-text:#f5f5f5;
+    --ig-subtext:#a8a8a8;
+    --ig-blue:#0095f6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--ig-bg);
+    color:var(--ig-text);
+    font-size:14px;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  .banner{
+    background:var(--ig-card);border-bottom:1px solid var(--ig-border);
+    text-align:center;padding:8px 12px;font-size:12px;color:var(--ig-subtext);
+  }
+
+  .page{max-width:935px;margin:0 auto;padding:30px 20px 0;}
+
+  /* ---- Header ---- */
+  .header{display:flex;gap:60px;padding:0 0 30px;border-bottom:1px solid var(--ig-border);margin-bottom:8px;}
+  .avatar-wrap{flex-shrink:0;display:flex;justify-content:center;width:150px;}
+  .avatar{
+    width:150px;height:150px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;overflow:hidden;
+  }
+  .avatar svg,.avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .header-main{flex:1;min-width:0;padding-top:8px;}
+  .username-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px;}
+  .username{font-size:22px;font-weight:400;}
+  .pill-btn{
+    background:#363636;border:none;border-radius:8px;padding:7px 16px;
+    font-size:14px;font-weight:600;cursor:default;color:var(--ig-text);
+  }
+  .pill-btn.primary{background:var(--ig-blue);color:white;}
+  .stats-row{display:flex;gap:40px;margin-bottom:20px;font-size:16px;}
+  .stats-row b{font-weight:600;}
+  .stats-row .stat-label{color:var(--ig-text);}
+  .bio{font-size:14px;line-height:1.5;}
+  .bio .display-name{font-weight:600;}
+  .bio .bio-line{white-space:pre-line;}
+  .bio .bio-address{color:var(--ig-text);}
+  .bio .bio-link{display:flex;align-items:center;gap:5px;font-weight:600;color:#5eb8ff;margin-top:2px;}
+  .bio .bio-link svg{flex-shrink:0;}
+
+  /* ---- Highlights ---- */
+  .highlights{display:flex;gap:24px;padding:16px 0 22px;overflow-x:auto;}
+  .highlight{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;width:77px;}
+  .highlight-circle{
+    width:77px;height:77px;border-radius:50%;border:1px solid var(--ig-border);
+    padding:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  }
+  .highlight-circle-inner{
+    width:100%;height:100%;border-radius:50%;background:#1a1a1a;
+    display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;
+  }
+  .highlight-circle-inner img{width:100%;height:100%;object-fit:cover;}
+  .highlight-label{font-size:12px;max-width:77px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+  /* ---- Tabs ---- */
+  .tabs{display:flex;justify-content:center;gap:60px;border-top:1px solid var(--ig-border);}
+  .tab{
+    padding:14px 0;font-size:12px;letter-spacing:1px;font-weight:600;color:var(--ig-subtext);
+    display:flex;align-items:center;gap:6px;border-top:1px solid transparent;margin-top:-1px;
+  }
+  .tab.active{color:var(--ig-text);border-top:1px solid var(--ig-text);}
+
+  /* ---- Grid ---- */
+  .grid-wrap{padding-bottom:60px;}
+  .hint{text-align:center;font-size:12px;color:var(--ig-subtext);padding:14px 0 4px;}
+  .grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:4px;
+  }
+  .post{
+    position:relative;aspect-ratio:4/5;overflow:hidden;cursor:grab;background:#1a1a1a;
+  }
+  .post img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    pointer-events:none;-webkit-user-drag:none;user-drag:none;user-select:none;
+  }
+  .post .badge{
+    position:absolute;top:8px;right:8px;color:white;
+    filter:drop-shadow(0 0 2px rgba(0,0,0,.6));
+  }
+  .post .theme-label{
+    position:absolute;bottom:0;left:0;right:0;
+    background:linear-gradient(transparent,rgba(0,0,0,.6));
+    color:white;font-size:12px;padding:20px 8px 8px;
+    opacity:0;transition:opacity .15s ease;line-height:1.3;
+  }
+  .post:hover .theme-label{opacity:1;}
+  .sortable-ghost{opacity:.3;}
+
+  /* ---- Modal ---- */
+  .overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
+    z-index:100;align-items:center;justify-content:center;padding:20px;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--ig-card);border-radius:12px;overflow:hidden;
+    max-width:935px;width:100%;max-height:90vh;display:flex;flex-direction:row;
+  }
+  .modal-media{
+    background:#000;flex:1.3;min-width:0;position:relative;
+    display:flex;align-items:center;justify-content:center;
+    aspect-ratio:4/5;max-height:90vh;
+  }
+  .modal-media.reels{aspect-ratio:9/16;}
+  #carouselImg{
+    width:100%;height:100%;object-fit:contain;display:block;
+    opacity:0;transition:opacity .15s ease;
+  }
+  #carouselImg.visible{opacity:1;}
+  #reelVideo{width:100%;height:100%;object-fit:contain;background:#000;}
+  #reelFrame{width:100%;height:100%;border:0;}
+  .media-loading{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:#000;color:rgba(255,255,255,.6);font-size:12px;pointer-events:none;
+    opacity:0;transition:opacity .15s ease;
+  }
+  .media-loading.show{opacity:1;}
+  .spinner{
+    width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.25);
+    border-top-color:#fff;animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .carousel-btn{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(255,255,255,.9);border:none;border-radius:50%;
+    width:32px;height:32px;cursor:pointer;font-size:16px;z-index:5;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .carousel-btn.prev{left:12px;}
+  .carousel-btn.next{right:12px;}
+  .dots{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:5;}
+  .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);}
+  .dot.active{background:#fff;}
+  .modal-side{width:340px;flex-shrink:0;display:flex;flex-direction:column;border-left:1px solid var(--ig-border);}
+  .modal-header{padding:14px;border-bottom:1px solid var(--ig-border);display:flex;align-items:center;gap:10px;}
+  .modal-header .avatar-sm{
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .modal-header .avatar-sm svg,.modal-header .avatar-sm img{width:100%;height:100%;object-fit:cover;display:block;}
+  .modal-header .name{font-size:13px;font-weight:600;}
+  .modal-body{padding:14px;flex:1;overflow-y:auto;}
+  .modal-body .theme-title{font-weight:600;font-size:14px;margin-bottom:6px;}
+  .modal-body .type-pill{
+    display:inline-block;font-size:11px;color:var(--ig-subtext);
+    border:1px solid var(--ig-border);border-radius:20px;padding:2px 10px;margin-bottom:10px;
+  }
+  .modal-body .quality-link{
+    display:inline-block;margin-top:14px;font-size:12px;font-weight:600;color:var(--ig-blue);
+  }
+  .close-btn{
+    position:absolute;top:-40px;right:0;background:none;border:none;
+    color:white;font-size:28px;cursor:pointer;line-height:1;
+  }
+  .modal-wrap{position:relative;}
+  .nav-arrows{
+    position:fixed;top:50%;transform:translateY(-50%);width:100%;
+    display:flex;justify-content:space-between;padding:0 20px;pointer-events:none;z-index:99;
+  }
+  .nav-arrows button{
+    pointer-events:all;background:rgba(255,255,255,.15);border:none;color:white;
+    width:44px;height:44px;border-radius:50%;font-size:20px;cursor:pointer;
+  }
+  @media (max-width:720px){
+    .header{gap:24px;}
+    .avatar-wrap{width:90px;}
+    .avatar{width:90px;height:90px;font-size:28px;}
+    .username{font-size:18px;}
+    .stats-row{gap:20px;font-size:14px;}
+    .modal{flex-direction:column;max-height:95vh;}
+    .modal-media,.modal-media.reels{aspect-ratio:4/5;max-height:55vh;}
+    .modal-side{width:100%;border-left:none;border-top:1px solid var(--ig-border);}
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">Prévia de conteúdos para aprovação — não é o perfil real do Instagram · arraste os posts para reordenar</div>
+
+<div class="page">
+  <div class="header">
+    <div class="avatar-wrap"><div class="avatar" id="profileAvatar">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoRing" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#f58529"/>
+            <stop offset="45%" stop-color="#dd2a7b"/>
+            <stop offset="100%" stop-color="#8134af"/>
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="47" fill="#0d0d0d" stroke="url(#logoRing)" stroke-width="5"/>
+        <path d="M32 78 L32 50 L50 24 L68 50 L68 78" fill="none" stroke="#f5a623" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div></div>
+    <div class="header-main">
+      <div class="username-row">
+        <div class="username">casademoura</div>
+        <button class="pill-btn primary">Seguir</button>
+        <button class="pill-btn">Mensagem</button>
+      </div>
+      <div class="stats-row">
+        <div><b>688</b> <span class="stat-label">publicações</span></div>
+        <div><b>20,7 mil</b> <span class="stat-label">seguidores</span></div>
+        <div><b>3.525</b> <span class="stat-label">seguindo</span></div>
+      </div>
+      <div class="bio">
+        <div class="display-name">Casa de Moura</div>
+        <div class="bio-line">• terça a sexta | 11:30h às 14h (buffet kg)
+e das 18h às 23h (à la carte)
+• sábado e domingo | 12h às 17h</div>
+        <div class="bio-address">R. Rio Grande do Sul, 145, Joinville, Santa Catarina, Brazil</div>
+        <div class="bio-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5eb8ff" stroke-width="2.5"><path d="M10 14a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 10a5 5 0 0 0-7.07 0L4.1 12.83a5 5 0 0 0 7.07 7.07l1.5-1.5"/></svg>
+          linktr.ee/suacasademoura
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlights" id="highlights">
+    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">🕐</div></div><div class="highlight-label">Horários</div></div>
+    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">🛵</div></div><div class="highlight-label">delivery</div></div>
+    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">📍</div></div><div class="highlight-label">localização</div></div>
+    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">🥂</div></div><div class="highlight-label">eventos</div></div>
+    <div class="highlight"><div class="highlight-circle"><div class="highlight-circle-inner">📖</div></div><div class="highlight-label">reservas</div></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      PUBLICAÇÕES
+    </div>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="hint">Arraste um post para reorganizar a grade &nbsp;·&nbsp; clique para visualizar</div>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="nav-arrows">
+    <button id="prevPost">‹</button>
+    <button id="nextPost">›</button>
+  </div>
+  <div class="modal-wrap">
+    <button class="close-btn" id="closeBtn">×</button>
+    <div class="modal">
+      <div class="modal-media" id="modalMedia">
+        <img id="carouselImg">
+        <video id="reelVideo" style="display:none;" controls playsinline preload="metadata"></video>
+        <iframe id="reelFrame" style="display:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <div class="media-loading" id="mediaLoading"><div class="spinner"></div><span id="loadingText" style="margin-left:8px;"></span></div>
+        <button class="carousel-btn prev" id="prevImgBtn" style="display:none;">‹</button>
+        <button class="carousel-btn next" id="nextImgBtn" style="display:none;">›</button>
+        <div class="dots" id="dotsContainer"></div>
+      </div>
+      <div class="modal-side">
+        <div class="modal-header">
+          <div class="avatar-sm" id="modalAvatar">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="logoRing2" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#f58529"/>
+                  <stop offset="45%" stop-color="#dd2a7b"/>
+                  <stop offset="100%" stop-color="#8134af"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="47" fill="#0d0d0d" stroke="url(#logoRing2)" stroke-width="5"/>
+              <path d="M32 78 L32 50 L50 24 L68 50 L68 78" fill="none" stroke="#f5a623" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="name">casademoura</div>
+        </div>
+        <div class="modal-body">
+          <div class="type-pill" id="modalType"></div>
+          <div class="theme-title" id="modalTitle"></div>
+          <a class="quality-link" id="qualityLink" href="#" target="_blank" rel="noopener" style="display:none;">Abrir este vídeo no Drive (qualidade máxima) ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- Dados dos conteúdos (extraídos do Drive, pastas 30, 37, 38 a 47) ----
+const posts = [
+  { id:"calendario-julho", theme:"Calendário Julho na Casa", type:"foto",
+    images:["1MqW19RaMYnjdNdaZoEkojOFtmShkdzeE"] },
+  { id:"atum-previa", theme:"Atum Acerola · Prévia", type:"reels",
+    capa:"1Cdl0dYA3ta-_oj5qQm_uep-u80QUr__x", video:"1ZwPGZ4Gkp1kZHxx7hrBvqCNcfq-MRX_0" },
+  { id:"ostra-vinho-1807", theme:"Ostra e Vinho · 18.07", type:"reels",
+    capa:"1_rSxUAB8deL0bNxbGW4-YfNbN1c_fNBi", video:"17bArk2r-BH3Q149ubQjoX_EJKxRk_uFe" },
+  { id:"localizacao", theme:"Localização e Espaço", type:"reels",
+    capa:"12jh2AtdrquURMkxciHw6xi01m1x8E5z8", video:"12k-_4DNsHe4kHVE1yuxwhVytlJKewqeK" },
+  { id:"atum-carrossel", theme:"Atum Acerola · Carrossel", type:"carrossel",
+    images:["1kPd0Wi8YrUzptyhj9SN7KiIC0a-prrG2","1vxlcCZjRe7LJF_hrRc3HCdyC8jnbYGUu","14uay4wl50PDJdF_-8cEKbDYTQBww5QmR"] },
+  { id:"novo-menu", theme:"Novo Menu", type:"reels",
+    capa:"12JwKOg1cSn7Iq_9px_eUnepwRt1rYa6r", video:"1ctR4uskeUUxuepWJbj9eYpz_B9g9nzmI" },
+  { id:"arroz-lambe-carrossel", theme:"Arroz Lambe Lambe · Carrossel", type:"carrossel",
+    images:["1ejLN1wFyuxjoSN57WSK7EJyLuYnHXLpk","1OhMeH6Rz9Y_qdKmC2RqH4M5Nrl4npbLU","1I8Gw5tZjSL8d4lTnqv8QI5U6wytP8XRQ"] },
+  { id:"tucupi", theme:"Tucupi", type:"reels",
+    capa:"1IaWX-7l35fJnDanoeR6TN3ffyDKaH4FS", video:"1GJMMnAkv-HURhoBGQqjWer8Bb8LXrUum" },
+  { id:"bolinho-foodporn", theme:"Bolinho de Moqueca · Food Porn", type:"reels",
+    capa:"1Qh-3pQluw_hVMgQhDRSEg7_r6tNu4tUD", video:"1OlkrbujUjp5V1BepwJvO0hLr_nSkolQk" },
+  { id:"delivery-nhoque-camarao", theme:"Delivery · Nhoque de Camarão", type:"reels",
+    capa:"10he_WVOP44PwOEPtTypInIVtewJRKO24", video:"1wIm_qmOW4EN38agQchyojZkaHGjjD8-b" },
+  { id:"arroz-cupim-carrossel", theme:"Arroz de Cupim · Carrossel", type:"carrossel",
+    images:["1ZytBmFfdRUnCl0re_rFPRO44EF60x5id","10n6CAglDMzeRDFZbQNJJYikdhwE5Dm23","1ldg5AeGEZcI8JQyUeEc79EQ1GHUK9Y8q"] },
+  { id:"atum-preparo", theme:"Atum Acerola · Preparo", type:"reels",
+    capa:"1z3uPD6-pisqxQADgo3cYQNGTp29c-fAh", video:"1y7WzrtanK04M44fK95Kk9dMvxgWdPKxT" },
+  { id:"delivery-novo-menu", theme:"Delivery · Novo Menu", type:"reels",
+    capa:"1e8_IO3F-JovUNSBnFjRd72tt8UVFYX2E", video:"1Hw8MXjWBZk_xLLHvA3wBfTjNLfVyY5Jp" },
+  { id:"arroz-lambe-preparo", theme:"Arroz Lambe Lambe · Preparo", type:"reels",
+    capa:"19sV7-4PUxTKmcnxtRlGF3xAU5OB_iSwu", video:"1dyLLrnJsc4NuVM1obduI_GN4KcXeBq6U" },
+  { id:"bolinho-carrossel", theme:"Bolinho de Moqueca · Carrossel", type:"carrossel",
+    images:["1_GyL1qFdgIL-7CEi8FvvRAY3JGLjJ5vE","1Eum567u01aGfjjCfaiE4StHWEEdBYbBp"] },
+  { id:"delivery-nhoque-carne-panela", theme:"Delivery · Nhoque Carne de Panela", type:"reels",
+    capa:"13b17qSEuUfnjmr-x-kFdhdU-AmRIKldR", video:"1Mk3spXt39_Le7xvJrmWkrZUh19-NC-7J" },
+  { id:"arroz-cupim-foodporn", theme:"Arroz de Cupim · Food Porn", type:"reels",
+    capa:"1OTHwsoU3JauMqG4eEonKJcrIGjYekC2J", video:"10LeS8Cebx5qcQkDKVtug7AirN52_BUNJ" },
+  { id:"arroz-lambe-degustacao", theme:"Arroz Lambe Lambe · Degustação", type:"reels",
+    capa:"17x3ig4wDROB2t2VG94kKZ3js1Gn9srtA", video:"1Z9CkDwTISkpSZ4Aa-JgRDkR-AzCxmIiq" },
+  { id:"bolinho-degustacao", theme:"Bolinho de Moqueca · Degustação", type:"reels",
+    capa:"1y5bgVD-vHJJo8K58_mNfnFK1xVQe4R9X", video:"1Tar3u2RZPSd7xkMVpLSccDgR8orZH0Y0" },
+  { id:"atum-degustacao-reacao", theme:"Atum Acerola · Degustação + Reação", type:"reels",
+    capa:"167v3Wdc3pGMWlfuwHiMeuoB8_YTy-oaD", video:"1txipzp9b6YYG2Crnew2as6-NOCo_LTfA" },
+  { id:"arroz-lambe-foodporn", theme:"Arroz Lambe Lambe · Food Porn", type:"reels",
+    capa:"1cOVheU4lHa_Nt40oy_tEsBP9sSDCuZg9", video:"16H7TA_oZ6zZozTQkqQMIs7FvCF7DZ_UB" }
+];
+
+const STORAGE_KEY = "casademoura_feed_order_v3";
+
+// tamanho padrão de post do feed do Instagram: 1080x1350 (proporção 4:5)
+function thumbUrl(id, size){ return `https://drive.google.com/thumbnail?id=${id}&sz=w${size||1080}`; }
+// stream direto do arquivo original (sem passar pelo player de prévia do Drive)
+function videoUrl(id){ return `https://drive.google.com/uc?export=download&id=${id}`; }
+function previewUrl(id){ return `https://drive.google.com/file/d/${id}/preview`; }
+function viewUrl(id){ return `https://drive.google.com/file/d/${id}/view`; }
+
+function loadOrder(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(Array.isArray(saved)){
+      const map = Object.fromEntries(posts.map(p=>[p.id,p]));
+      const reordered = saved.map(id=>map[id]).filter(Boolean);
+      const missing = posts.filter(p=>!saved.includes(p.id));
+      if(reordered.length){ return reordered.concat(missing); }
+    }
+  }catch(e){}
+  return posts;
+}
+function saveOrder(ordered){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ordered.map(p=>p.id)));
+}
+
+let currentOrder = loadOrder();
+let currentIndex = 0;
+
+const grid = document.getElementById("grid");
+
+function render(){
+  grid.innerHTML = "";
+  currentOrder.forEach((post, idx)=>{
+    const cover = post.images ? post.images[0] : post.capa;
+    const div = document.createElement("div");
+    div.className = "post";
+    div.dataset.id = post.id;
+    div.innerHTML = `
+      <img src="${thumbUrl(cover, 640)}" loading="lazy" alt="${post.theme}" draggable="false">
+      <span class="badge">${badgeIcon(post.type)}</span>
+      <div class="theme-label">${post.theme}</div>
+    `;
+    div.addEventListener("click", ()=>{
+      if(div.dataset.justDragged) return;
+      openModal(idx);
+    });
+    grid.appendChild(div);
+  });
+}
+
+function badgeIcon(type){
+  if(type === "carrossel"){
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M7 2h13a2 2 0 0 1 2 2v13h-2V4H7V2zm-3 4h13a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm0 2v13h13V8H4z"/></svg>`;
+  }
+  if(type === "reels"){
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17 10.5V7a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-3.5l4 4v-11l-4 4z"/></svg>`;
+  }
+  return ""; // foto simples: sem badge, igual ao Instagram
+}
+
+// ---- Sortable (drag to reorder) ----
+if(typeof Sortable !== "undefined"){
+  Sortable.create(grid, {
+    animation:150,
+    delay:80,
+    delayOnTouchOnly:true,
+    onStart:(evt)=>{ evt.item.dataset.justDragged = "1"; },
+    onEnd:(evt)=>{
+      const ids = Array.from(grid.children).map(el=>el.dataset.id);
+      const map = Object.fromEntries(currentOrder.map(p=>[p.id,p]));
+      currentOrder = ids.map(id=>map[id]);
+      saveOrder(currentOrder);
+      setTimeout(()=>{ delete evt.item.dataset.justDragged; }, 200);
+    }
+  });
+}
+
+// ==================================================================
+// Modal
+// ==================================================================
+const overlay = document.getElementById("overlay");
+const modalTitle = document.getElementById("modalTitle");
+const modalType = document.getElementById("modalType");
+const carouselImg = document.getElementById("carouselImg");
+const reelVideo = document.getElementById("reelVideo");
+const reelFrame = document.getElementById("reelFrame");
+const mediaLoading = document.getElementById("mediaLoading");
+const loadingText = document.getElementById("loadingText");
+const prevImgBtn = document.getElementById("prevImgBtn");
+const nextImgBtn = document.getElementById("nextImgBtn");
+const dotsContainer = document.getElementById("dotsContainer");
+const qualityLink = document.getElementById("qualityLink");
+const modalMedia = document.getElementById("modalMedia");
+
+let carouselIndex = 0;
+
+function showImage(url){
+  mediaLoading.classList.add("show");
+  carouselImg.classList.remove("visible");
+  const loader = new Image();
+  loader.onload = ()=>{
+    carouselImg.src = url;
+    carouselImg.classList.add("visible");
+    mediaLoading.classList.remove("show");
+  };
+  loader.onerror = ()=>{
+    mediaLoading.classList.remove("show");
+  };
+  loader.src = url;
+}
+
+function renderDots(post){
+  dotsContainer.innerHTML = "";
+  if(post.images && post.images.length > 1){
+    post.images.forEach((_, i)=>{
+      const dot = document.createElement("span");
+      dot.className = "dot" + (i === carouselIndex ? " active" : "");
+      dotsContainer.appendChild(dot);
+    });
+  }
+}
+
+// player de prévia embutido do Drive — é o que se mostrou confiável nos testes
+let videoLoadToken = 0;
+function loadVideo(videoId){
+  const token = ++videoLoadToken;
+  reelVideo.style.display = "none";
+  reelFrame.style.display = "block";
+  mediaLoading.classList.add("show");
+  loadingText.textContent = "Carregando vídeo…";
+  reelFrame.src = previewUrl(videoId);
+  reelFrame.onload = ()=>{
+    if(token !== videoLoadToken) return;
+    mediaLoading.classList.remove("show");
+  };
+}
+
+function renderModal(){
+  const post = currentOrder[currentIndex];
+  modalTitle.textContent = post.theme;
+  modalType.textContent = post.type === "reels" ? "Reels" : (post.type === "carrossel" ? "Carrossel" : "Foto");
+  modalMedia.classList.toggle("reels", post.type === "reels");
+
+  if(post.type === "reels"){
+    carouselImg.style.display = "none";
+    carouselImg.classList.remove("visible");
+    prevImgBtn.style.display = "none";
+    nextImgBtn.style.display = "none";
+    dotsContainer.innerHTML = "";
+    qualityLink.href = viewUrl(post.video);
+    qualityLink.style.display = "inline-block";
+    loadVideo(post.video);
+  } else {
+    reelVideo.style.display = "none";
+    reelVideo.pause();
+    reelVideo.removeAttribute("src");
+    reelFrame.style.display = "none";
+    reelFrame.src = "";
+    carouselImg.style.display = "block";
+    qualityLink.style.display = "none";
+    showImage(thumbUrl(post.images[carouselIndex], 1080));
+    const multi = post.images.length > 1;
+    prevImgBtn.style.display = multi ? "flex" : "none";
+    nextImgBtn.style.display = multi ? "flex" : "none";
+    renderDots(post);
+  }
+}
+
+function openModal(idx){
+  currentIndex = idx;
+  carouselIndex = 0;
+  overlay.classList.add("open");
+  renderModal();
+}
+function closeModal(){
+  overlay.classList.remove("open");
+  videoLoadToken++; // invalida qualquer fallback/timeout pendente
+  reelVideo.pause();
+  reelVideo.removeAttribute("src");
+  reelFrame.src = "";
+}
+
+prevImgBtn.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  const post = currentOrder[currentIndex];
+  carouselIndex = (carouselIndex - 1 + post.images.length) % post.images.length;
+  showImage(thumbUrl(post.images[carouselIndex], 1080));
+  renderDots(post);
+});
+nextImgBtn.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  const post = currentOrder[currentIndex];
+  carouselIndex = (carouselIndex + 1) % post.images.length;
+  showImage(thumbUrl(post.images[carouselIndex], 1080));
+  renderDots(post);
+});
+
+document.getElementById("closeBtn").addEventListener("click", closeModal);
+overlay.addEventListener("click", (e)=>{ if(e.target === overlay) closeModal(); });
+
+document.getElementById("prevPost").addEventListener("click", ()=>{
+  currentIndex = (currentIndex - 1 + currentOrder.length) % currentOrder.length;
+  carouselIndex = 0;
+  renderModal();
+});
+document.getElementById("nextPost").addEventListener("click", ()=>{
+  currentIndex = (currentIndex + 1) % currentOrder.length;
+  carouselIndex = 0;
+  renderModal();
+});
+
+document.addEventListener("keydown", (e)=>{
+  if(!overlay.classList.contains("open")) return;
+  if(e.key === "Escape") closeModal();
+  if(e.key === "ArrowRight"){
+    const post = currentOrder[currentIndex];
+    if(post.images && post.images.length > 1) nextImgBtn.click();
+    else document.getElementById("nextPost").click();
+  }
+  if(e.key === "ArrowLeft"){
+    const post = currentOrder[currentIndex];
+    if(post.images && post.images.length > 1) prevImgBtn.click();
+    else document.getElementById("prevPost").click();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
